@@ -1,0 +1,12 @@
+<launch>
+    <arg name='method' default="topic"/>
+	<group ns='success_google_stt'>
+            <include file="$(find audio_capture)/launch/capture_wave.launch" if="$(eval method == 'topic')"/>
+        <node name="google_stt" pkg="success_google_stt" respawn="true" type="stt_node.py" output="screen">
+            <!-- local hack to allow us to include virtualenv into the equation -->
+            <param name='method' value="$(arg method)" type="string" />
+            <env name="PYTHONPATH" value="$(env PYTHONPATH):/usr/lib/python36.zip:/home/zhi/Dev/envs/ros/lib/python3.6/site-packages"/>
+            <env name="GOOGLE_APPLICATION_CREDENTIALS" value="/home/zhi/Keys/google_service_account.json" />
+        </node>
+    </group>
+</launch>
