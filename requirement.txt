@@ -17,7 +17,6 @@ pyasn1-modules==0.2.2
 pyparsing==2.3.0
 python-dateutil==2.7.5
 pytz==2018.7
-PyYAML==3.13
 requests==2.20.1
 rospkg==1.1.7
 rsa==4.0
