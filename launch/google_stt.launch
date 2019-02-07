@@ -1,12 +1,18 @@
 <launch>
+
     <arg name='method' default="topic"/>
+    <arg name="python3_version" default="6" />
+    <arg name="python3_venv_path" default="$(env HOME)/Dev/envs/ros" />
+    <arg name='google_credential_path' default="$(env HOME)/Keys/google_service_account.json"/>
+    <arg name='pythonpackage_path' default="/usr/lib/python3$(arg python3_version).zip:$(arg python3_venv_path)/lib/python3.$(arg python3_version)/site-packages"/>
+
 	<group ns='success_google_stt'>
             <include file="$(find audio_capture)/launch/capture_wave.launch" if="$(eval method == 'topic')"/>
         <node name="google_stt" pkg="success_google_stt" respawn="true" type="stt_node.py" output="screen">
             <!-- local hack to allow us to include virtualenv into the equation -->
             <param name='method' value="$(arg method)" type="string" />
-            <env name="PYTHONPATH" value="$(env PYTHONPATH):/usr/lib/python36.zip:/home/zhi/Dev/envs/ros/lib/python3.6/site-packages"/>
-            <env name="GOOGLE_APPLICATION_CREDENTIALS" value="/home/zhi/Keys/google_service_account.json" />
+            <env name="PYTHONPATH" value="$(env PYTHONPATH):$(arg pythonpackage_path)"/>
+            <env name="GOOGLE_APPLICATION_CREDENTIALS" value="$(arg google_credential_path)" />
         </node>
     </group>
 </launch>
